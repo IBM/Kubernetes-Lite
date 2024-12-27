@@ -1,6 +1,8 @@
-module github.com/HonakerM/python-go-kubernetes-client
+module github.ibm.com/Michael-Honaker/kubernetes-go-python-client
 
 go 1.23.0
+
+require github.com/go-python/gopy v0.4.10
 
 require (
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
