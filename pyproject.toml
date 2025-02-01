@@ -17,7 +17,8 @@ dependencies = [
 
 gen = [
     "pybindgen",
-    "typer"
+    "typer",
+    "pip-licenses"
 ]
 
 test = [
@@ -54,6 +55,7 @@ include = ["kubernetes_lite*"]
 [tool.setuptools.package-data]
 # Include binary wrapper files
 "kubernetes_lite" = ["**/*.h","**/*.c","**/*.go","**/*.mod","**/*.sum"]
+"kubernetes_lite.licenses" = ["**/*"]
 
 [tool.setuptools_scm]
 write_to = "kubernetes_lite/_version.py"
@@ -160,3 +162,8 @@ pythonpath = [
   ".",
 ]
 addopts = "-p no:warnings --cov-report term-missing:skip-covered -cov kubernetes_lite"
+
+
+##################################### License Gathering ##################
+[tool.pip-licences]
+from = "mixed"

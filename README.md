@@ -77,3 +77,15 @@ OS/Arch: darwin/amd64
 sha512: a7824ff8ae9c5062bcbde243a7a3a1c76e02de0c92e2b332daf1954405aeded856023f277d74197862d0d5909e9e1dca451b5f2e84796e451ad6011ec98f8433
 Path: /Users/michaelhonaker/Library/Application Support/io.kubebuilder.envtest/k8s/1.32.0-darwin-amd64
 ```
+
+## Documentation
+
+Get going with our [Examples](#examples) or jump into more details with the [Python API docs]().
+
+## Contributing
+
+Check out our [contributing](CONTRIBUTING.md) guide to learn how to contribute to Kubernetes Lite.
+
+## Code of Conduct
+
+Participation in Kubernetes Lite is governed by our [Code of Conduct](code-of-conduct.md).

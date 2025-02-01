@@ -17,6 +17,12 @@ gen:
 	gopy pkg -no-make -author="Michael Honaker" -email="michael.honaker@ibm.com" -name=wrapper github.ibm.com/Michael-Honaker/kubernetes-lite/kubernetes_lite/go_wrapper/pkg/client github.ibm.com/Michael-Honaker/kubernetes-lite/kubernetes_lite/go_wrapper/pkg/envtest/setup github.ibm.com/Michael-Honaker/kubernetes-lite/kubernetes_lite/go_wrapper/pkg/envtest/server && \
 	python3 ../scripts/post_gen_cleanup.py ./ wrapper
 
+license-gen:
+	pip-licenses --format=plain-vertical --with-license-file -p kubernetes_lite -p orjson > ./kubernetes_lite/licenses/PYTHON_LICENSES && \
+	cd kubernetes_lite/go_wrapper && \
+	go-licenses save --save_path ../licenses/go ./...
+
+
 ##################################### BUILD ####################################
 local-build:
 	export GOWORK=off && \
