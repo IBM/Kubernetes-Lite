@@ -4,7 +4,7 @@ Kubernetes Lite is a "liteweight" wrapper around various golang Kubernetes libra
 
 ## Examples
 
-For examples using the library please continue reading down bellow or checkout our [examples](./examples/) folder
+For examples using the library, please continue reading down below or check our [examples](./examples/) folder.
 
 ## Installation
 
@@ -16,7 +16,7 @@ pip3 install kubernetes_lite
 
 ### Source Installation
 
-To install Kubernetes Lite from source you will need to install [golang](https://go.dev/doc/install) 1.23. You should then be able to let setup-tools/pip install the package like normal.
+To install Kubernetes Lite from source, you must install [golang](https://go.dev/doc/install) 1.23. You should then let setup-tools/pip install the package like normal.
 
 ```sh
 pip3 install --no-binary "kubernetes_lite" kubernetes_lite
@@ -37,7 +37,7 @@ client = DynamicClient()
 client.resource("apps/v1","Deployment").list()
 ```
 
-The following graph's highlight the speed and efficiency of the dynamic client. One caveat is that the "20%" runtime improvement is ontop an already fast standard client. The official client is only 1-3ms behind Kubernetes Lite which would not have an impact on a networked client where network latencies are normally much higher then 1ms. The real benefit of Kubernetes Lite's resource efficiency is startup time. If you have a simple script which needs to be ran at frequent intervals, the startup save of 300ms can be impactful.
+The following graphs highlight the speed and efficiency of the dynamic client. One caveat is that the "20%" runtime improvement is on top of a fast standard client. The official client is only 1-3ms behind Kubernetes Lite, which would not impact a networked client where network latencies usually are much higher than 1ms. The real benefit of Kubernetes Lite's resource efficiency is startup time. If you have a simple script that needs to be run at frequent intervals, the startup save of 300ms can be impactful.
 
 ![client runtime operation timings](./docs/current/images/client_runtime_operations.png)
 ![client startup operation timings](./docs/current/images/client_startup_operations.png)
@@ -45,7 +45,7 @@ The following graph's highlight the speed and efficiency of the dynamic client. 
 
 ## EnvTest
 
-To aid in testing all Python Kubernetes libraries, Kuberetes Lite also provides bindings to the controller-runtime's [envtest](https://sigs.k8s.io/controller-runtime/pkg/envtest) package. This allows you to start a local control plane without needing a container runtime, which provides users real API server to test against, replacing the need for complicated "mock" clients and servers. These bindings and pytest fixtures work with any Kubernetes client including the official one as shown in [our examples folder.](./examples/test_kubernetes.py) 
+To aid in testing all Python Kubernetes libraries, Kubernetes Lite also provides bindings to the controller-runtime's [envtest](https://sigs.k8s.io/controller-runtime/pkg/envtest) package. This allows you to start a local control plane without needing a container runtime, which provides users real API server to test against, replacing the need for complicated "mock" clients and servers. These bindings and pytest fixtures work with any Kubernetes client, including the official one, as shown in [our examples folder.](./examples/test_kubernetes.py)
 
 ```python
 # Import standard Kubernetes client
@@ -64,7 +64,7 @@ def test_kubernetes_core_api(session_kubernetes_env: EnvTest):
         print(f"{i.status.pod_ip}\t{i.metadata.namespace}\t{i.metadata.name}")
 ```
 
-The `EnvTest` class was designed to be compatible with the controller-runtime version. It uses the same environmental configuration as go with support for envvars like `KUBEBUILDER_ASSETS` and `USE_EXISTING_CLUSTER`. For a full guide to envtest checkout the controller-runtimes [Configuring Envtest](https://book.kubebuilder.io/reference/envtest.html) guide. The code snippets will be different and instead of `setup-envtest` it will be `python3 -m kubernetes_lite.setup_envtest` but other than that the guide is still applicable.
+The `EnvTest` class was designed to be compatible with the controller-runtime version. It uses the same environmental configuration as go with support for envvars like `KUBEBUILDER_ASSETS` and `USE_EXISTING_CLUSTER`. For a complete guide to envtest checkout the controller-runtimes [Configuring Envtest](https://book.kubebuilder.io/reference/envtest.html) guide. The code snippets will be different; instead of `setup-envtest`, it will be `python3 -m kubernetes_lite.setup_envtest`, but the guide is still applicable.
 
 ## Setup EnvTest
 
@@ -88,4 +88,4 @@ Check out our [contributing](CONTRIBUTING.md) guide to learn how to contribute t
 
 ## Code of Conduct
 
-Participation in Kubernetes Lite is governed by our [Code of Conduct](code-of-conduct.md).
+Participation in Kubernetes Lite is governed by our [Code of Conduct.](code-of-conduct.md)
