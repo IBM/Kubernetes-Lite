@@ -45,7 +45,7 @@ The following graphs highlight the speed and efficiency of the dynamic client. O
 
 ## EnvTest
 
-To aid in testing all Python Kubernetes libraries, Kubernetes Lite also provides bindings to the controller-runtime's [envtest](https://sigs.k8s.io/controller-runtime/pkg/envtest) package. This allows you to start a local control plane without needing a container runtime, which provides users real API server to test against, replacing the need for complicated "mock" clients and servers. These bindings and pytest fixtures work with any Kubernetes client, including the official one, as shown in [our examples folder.](./examples/test_kubernetes.py)
+To aid in testing all Python Kubernetes libraries, Kubernetes Lite also provides bindings to the controller-runtime's [envtest](https://sigs.k8s.io/controller-runtime/pkg/envtest) package. This allows you to start a local control plane without needing a container runtime, which provides users real API server to test against, replacing the need for complicated "mock" clients and servers. As shown in [our examples folder](./examples/test_kubernetes.py), these bindings and pytest fixtures work with any Kubernetes client, including the official one.
 
 ```python
 # Import standard Kubernetes client
