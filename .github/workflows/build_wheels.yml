@@ -25,4 +25,4 @@ jobs:
         run: python -m cibuildwheel --output-dir wheelhouse
         env:
           # CI before build install go as its a dependency
-          CIBW_BEFORE_BUILD: "curl -O https://go.dev/dl/go1.21.13.linux-amd64.tar.gz && \ tar -xvf go1.21.13.linux-amd64.tar.gz && \ mv go /usr/local "
+          CIBW_BEFORE_BUILD: "curl -o go.tar.gz https://go.dev/dl/go1.21.13.linux-amd64.tar.gz && tar -xvf go.tar.gz && mv go /usr/local "
