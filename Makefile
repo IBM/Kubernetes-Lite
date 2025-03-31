@@ -7,7 +7,7 @@ PIP=$(PYTHON) -m pip
 LOCAL_PY_CFLAGS=$(shell python3.11-config --includes)
 LOCAL_PY_LDFLAGS=$(shell python3.11-config --ldflags)
 
-all: format
+all: check
 
 ################################## GENERATION ##################################
 gen: 
@@ -42,6 +42,8 @@ docker-build: python-build local-docker-build
 ################################ FORMAT AND LINT ###############################
 format: 
 	ruff format && ruff check --fix
+check-format:
+	ruff format --check && ruff check
 
 ##################################### DOCS #####################################
 docs-gen:
@@ -49,3 +51,12 @@ docs-gen:
 
 docs-serve:
 	python3 -m mkdocs serve --config-file ./docs/mkdocs.yaml
+##################################### SECRETS ##################################
+
+update-secrets:
+	detect-secrets scan --update .secrets.baseline --exclude-files '(go.sum|tests\/performance\/data\/.*)'
+check-secrets:
+	detect-secrets audit --report --fail-on-unaudited --fail-on-live --fail-on-audited-real .secrets.baseline
+
+################################ Checks ###############################
+check: check-format check-secrets

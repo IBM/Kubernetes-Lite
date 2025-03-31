@@ -1,0 +1,23 @@
+name: Build
+
+on: [push, pull_request]
+
+jobs:
+  build_wheels:
+    name: Build wheels on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        # macos-13 is an intel runner, macos-14 is apple silicon
+        os: [ubuntu-latest, windows-latest, macos-13, macos-14]
+
+    steps:
+      - uses: actions/checkout@v4
+      # Ensure we have python
+      - uses: actions/setup-python@v5
+      # Pull in ruff and detect secrets for PR checks
+      - uses: astral-sh/ruff-action@v3
+      - name: Install detect secrets
+        run: python -m pip install detect-secrets
+      - name: Run check
+        run: make check
