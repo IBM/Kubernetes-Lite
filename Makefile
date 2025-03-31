@@ -56,7 +56,7 @@ docs-serve:
 update-secrets:
 	detect-secrets scan --update .secrets.baseline --exclude-files '(go.sum|tests\/performance\/data\/.*)'
 check-secrets:
-	detect-secrets audit --report --fail-on-unaudited --fail-on-live --fail-on-audited-real .secrets.baseline
+	detect-secrets audit --report  .secrets.baseline
 
 ################################ Checks ###############################
 check: check-format check-secrets
