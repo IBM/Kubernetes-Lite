@@ -1,16 +1,11 @@
-name: Build
+name: PR Check
 
 on: [push, pull_request]
 
 jobs:
   build_wheels:
-    name: Build wheels on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        # macos-13 is an intel runner, macos-14 is apple silicon
-        os: [ubuntu-latest, windows-latest, macos-13, macos-14]
-
+    name: Check PR for formatting, secrets, and other requirements 
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       # Ensure we have python
