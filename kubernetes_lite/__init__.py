@@ -5,6 +5,7 @@
 # divested of its trade secrets, irrespective of what has been      #
 # deposited with the U.S. Copyright Office.                         #
 # ***************************************************************** #
+# SPDX-License-Identifier: Apache-2.0
 """Kubernetes_lite is a lightweight wrapper around the dynamic client from k8s.io/client-go/dynamic,
 the 'mock' kubernetes server from sigs.k8s.io/controller-runtime/pkg/envtest, and its helper tool
 setup-envtest https://pkg.go.dev/sigs.k8s.io/controller-runtime/tools/setup-envtest

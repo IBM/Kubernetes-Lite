@@ -5,6 +5,7 @@
 # divested of its trade secrets, irrespective of what has been      #
 # deposited with the U.S. Copyright Office.                         #
 # ***************************************************************** #
+# SPDX-License-Identifier: Apache-2.0
 """This script is used to add kubernetes_lite specific post-processing to the
 result of gopy. This includes renaming platform specific files, updating CFLAG/LDFLAGS
 and deleting extra unneeded files.

@@ -8,6 +8,9 @@ For examples using the library, please continue reading down below or check our 
 
 ## Installation
 
+> [!WARNING]
+> Since go 1.21 having multiple go shared objects in the same process [is not supported.](https://github.com/golang/go/issues/65050#issue-2074509727) Thus you **can not** use other CGO based libraries with kubernetes-lite. If you would like to combine this package with another golang based one then please open an issue so we can discuss possible solutions.
+
 Kubernetes Lite provides precompiled both x86 and arm wheels for Linux and MacOS. You can install the package with the standard `pip install`
 
 ```sh

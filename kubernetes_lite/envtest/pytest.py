@@ -5,6 +5,7 @@
 # divested of its trade secrets, irrespective of what has been      #
 # deposited with the U.S. Copyright Office.                         #
 # ***************************************************************** #
+# SPDX-License-Identifier: Apache-2.0
 """This module contains helper pytest fixtures to make using EnvTest easier
 in testing environments
 """

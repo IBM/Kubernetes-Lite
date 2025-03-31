@@ -5,6 +5,7 @@
 # divested of its trade secrets, irrespective of what has been      #
 # deposited with the U.S. Copyright Office.                         #
 # ***************************************************************** #
+# SPDX-License-Identifier: Apache-2.0
 """This module contains a pythonic wrapper around the https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/envtest
 EnvTest object
 """

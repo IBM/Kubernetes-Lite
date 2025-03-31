@@ -5,6 +5,7 @@
 # divested of its trade secrets, irrespective of what has been      #
 # deposited with the U.S. Copyright Office.                         #
 # ***************************************************************** #
+# SPDX-License-Identifier: Apache-2.0
 """This module contains a list of possible kubernetes errors and helper
 functions to convert go_wrapper errors into their respective python
 classes

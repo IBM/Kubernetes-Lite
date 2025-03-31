@@ -5,6 +5,7 @@
 # divested of its trade secrets, irrespective of what has been      #
 # deposited with the U.S. Copyright Office.                         #
 # ***************************************************************** #
+# SPDX-License-Identifier: Apache-2.0
 # Assisted by watsonx Code Assistant
 """This example program demonstrates the fundamental operations for
 managing on Deployment resources, such as Create, List, Update and Delete
@@ -100,7 +101,7 @@ def main(kube_config: Path | None = None, namespace: str | None = "default"):
 
     print("Creating deployment...")
     result = deploy_resource.create(deployment_obj, namespace=namespace)
-    print(f"Created deployment \"{result['metadata']['name']}\"")
+    print(f'Created deployment "{result["metadata"]["name"]}"')
 
     input("-> Press Return key to continue.")
 

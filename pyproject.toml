@@ -148,7 +148,7 @@ ignore = [
 convention = "google"
 
 [tool.ruff.lint.flake8-copyright]
-notice-rgx = "\\# \\** \\#\\n\\# \\(C\\) Copyright IBM Corporation 2024\\. *\\#\\n\\# *\\#\\n\\# The source code for this program is not published or otherwise *\\#\\n\\# divested of its trade secrets, irrespective of what has been *\\#\\n\\# deposited with the U.S. Copyright Office. *\\#\\n\\# \\** \\#"
+notice-rgx = "\\# \\** \\#\\n\\# \\(C\\) Copyright IBM Corporation 2024\\. *\\#\\n\\# *\\#\\n\\# The source code for this program is not published or otherwise *\\#\\n\\# divested of its trade secrets, irrespective of what has been *\\#\\n\\# deposited with the U.S. Copyright Office. *\\#\\n\\# \\** \\#\\n\\# SPDX\\-License\\-Identifier\\: Apache\\-2\\.0"
 
 [tool.ruff.lint.isort]
 known-local-folder = ["kubernetes_lite", "tests"]

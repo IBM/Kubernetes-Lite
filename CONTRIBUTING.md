@@ -119,6 +119,7 @@ For go code the copyright notice takes the following form:
  * divested of its trade secrets, irrespective of what has been      *
  * deposited with the U.S. Copyright Office.                         *
  * ----------------------------------------------------------------- */
+// SPDX-License-Identifier: Apache-2.0
 ```
 
 For python the copyright notice takes the following form:
@@ -130,6 +131,7 @@ For python the copyright notice takes the following form:
 # divested of its trade secrets, irrespective of what has been      #
 # deposited with the U.S. Copyright Office.                         #
 # ***************************************************************** #
+# SPDX-License-Identifier: Apache-2.0
 ```
 
 ### How Do I Start Contributing?
