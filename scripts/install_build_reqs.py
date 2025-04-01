@@ -13,6 +13,7 @@ any external dependencies (e.g. requests)
 
 import platform
 import shutil
+import subprocess
 import tempfile
 from pathlib import Path
 from urllib.request import urlopen
@@ -20,7 +21,7 @@ from urllib.request import urlopen
 # Base settings for go/src/dest
 GO_VERSION = "1.23.7"
 GO_BASE_URL = "https://go.dev/dl/go{version}.{system}-{arch}.tar.gz"
-DEST_PATH = "/usr/local/go"
+DEST_PATH = "/usr/local"
 
 # Parse the system architecture and platform
 system: str | None = None
@@ -55,4 +56,6 @@ with tempfile.TemporaryDirectory() as temp_dir:
         tar_gz_file.write_bytes(response.read())
 
     shutil.unpack_archive(tar_gz_file, DEST_PATH)
-    print("Current contents", list(Path(DEST_PATH).glob("**/*")))
+
+# Ensure go is usable. ! Note this requires the path be set externally
+subprocess.run(["go", "version"], check=True)
