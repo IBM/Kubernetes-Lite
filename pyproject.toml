@@ -67,6 +67,7 @@ write_to = "kubernetes_lite/_version.py"
 archs = ["auto64"]
 build = "cp3*"
 before-build = 'eval "$(python3 {package}/scripts/install_build_reqs.py)" && env && go version'
+environment = "PATH=$PATH:$GO_INSTALL_PATH"
 
 ##################################### Formatting ###############################
 

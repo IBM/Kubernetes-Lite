@@ -64,3 +64,4 @@ subprocess.run([f"{DEST_PATH}/go/bin/go", "version"], check=True, capture_output
 # Print the path used for installation
 print("# Install path for go: ")
 print(f"export PATH=$PATH:{DEST_PATH}/go/bin")
+print(f"export GO_INSTALL_PATH={DEST_PATH}/go/bin")
