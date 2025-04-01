@@ -15,6 +15,7 @@ import platform
 import shutil
 import subprocess
 import tempfile
+from enum import StrEnum
 from pathlib import Path
 from urllib.request import urlopen
 
@@ -23,24 +24,38 @@ GO_VERSION = "1.23.7"
 GO_BASE_URL = "https://go.dev/dl/go{version}.{system}-{arch}.tar.gz"
 DEST_PATH = tempfile.gettempdir()
 
+
+# Consts for platforms
+class SystemTypes(StrEnum):  # noqa: D101
+    LINUX = "linux"
+    DARWIN = "darwin"
+    WINDOWS = "windows"
+
+
+class ArchTypes(StrEnum):  # noqa: D101
+    AMD64 = "amd64"
+    X386 = "386"
+    ARM64 = "arm64"
+
+
 # Parse the system architecture and platform
-system: str | None = None
-arch: str | None = None
+system: SystemTypes | None = None
+arch: ArchTypes | None = None
 if platform.machine() in {"x86_64", "amd64"}:
-    arch = "amd64"
+    arch = ArchTypes.AMD64
 elif platform.machine() in {"i386", "i686"}:
-    arch = "386"
+    arch = ArchTypes.X386
 elif platform.machine() in {"aarch64", "arm64", "armv8b", "armv8l", "aarch64_be"}:
-    arch = "arm64"
+    arch = ArchTypes.ARM64
 else:
     raise ValueError(f"Unknown machine platform {platform.machine()}")
 
 if platform.system() == "Linux":
-    system = "linux"
+    system = SystemTypes.LINUX
 elif platform.system() == "Darwin":
-    system = "darwin"
+    system = SystemTypes.DARWIN
 elif platform.system() == "Windows":
-    system = "windows"
+    system = SystemTypes.WINDOWS
 else:
     raise ValueError(f"Unknown machine system {platform.system()}")
 
@@ -63,7 +78,9 @@ subprocess.run([f"{DEST_PATH}/go/bin/go", "version"], check=True, capture_output
 
 # Print the path used for installation
 print("# Install path for go: ")
-# print(f"export PATH=$PATH:{DEST_PATH}/go/bin")
-# print(f"export GO_INSTALL_PATH={DEST_PATH}/go/bin")
+print(f"export PATH=$PATH:{DEST_PATH}/go/bin")
+print(f"export GO_INSTALL_PATH={DEST_PATH}")
+
 # System-link go binaries to a usr defined path
-print(f"ln -s {DEST_PATH}/go/bin/* /usr/local/bin")
+if system in {SystemTypes.DARWIN, SystemTypes.LINUX}:
+    print(f"ln -s {DEST_PATH}/go/bin/* /usr/local/bin")
