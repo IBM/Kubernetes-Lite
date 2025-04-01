@@ -30,7 +30,7 @@ if platform.machine() in {"x86_64", "amd64"}:
     arch = "amd64"
 elif platform.machine() in {"i386", "i686"}:
     arch = "386"
-elif platform.machine() in {"aarch64", "armv8b", "armv8l", "aarch64_be"}:
+elif platform.machine() in {"aarch64", "arm64", "armv8b", "armv8l", "aarch64_be"}:
     arch = "arm64"
 else:
     raise ValueError(f"Unknown machine platform {platform.machine()}")
