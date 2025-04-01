@@ -60,6 +60,12 @@ include = ["kubernetes_lite*"]
 [tool.setuptools_scm]
 write_to = "kubernetes_lite/_version.py"
 
+############################# Cross Platform Build #############################
+
+[tool.cibuildwheel]
+# Only build wheels for CPython
+build = "cp3*"
+
 ##################################### Formatting ###############################
 
 [tool.ruff]
