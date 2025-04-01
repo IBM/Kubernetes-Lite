@@ -64,6 +64,7 @@ write_to = "kubernetes_lite/_version.py"
 
 [tool.cibuildwheel]
 # Only build wheels for CPython
+archs = ["auto64"]
 build = "cp3*"
 environment = "PATH=$PATH:/usr/local/go/bin"
 before-build = "python3 {package}/scripts/install_build_reqs.py"
