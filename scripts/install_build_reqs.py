@@ -59,7 +59,7 @@ with tempfile.TemporaryDirectory() as temp_dir:
     shutil.unpack_archive(tar_gz_file, DEST_PATH)
 
 # Ensure go is usable. ! Note this requires the path be set externally
-subprocess.run(["go", "version"], check=True, capture_output=True)
+subprocess.run([f"{DEST_PATH}/go/bin/go", "version"], check=True, capture_output=True)
 
 # Print the path used for installation
 print("# Install path for go: ")
