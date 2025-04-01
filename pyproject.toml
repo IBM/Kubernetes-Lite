@@ -66,7 +66,7 @@ write_to = "kubernetes_lite/_version.py"
 # Only build wheels for CPython
 archs = ["auto64"]
 build = "cp3*"
-before-build = "python3 {package}/scripts/install_build_reqs.py | bash && env && go version"
+before-build = 'eval "$(python3 {package}/scripts/install_build_reqs.py)" && env && go version'
 
 ##################################### Formatting ###############################
 
