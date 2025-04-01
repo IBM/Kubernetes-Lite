@@ -21,7 +21,7 @@ from urllib.request import urlopen
 # Base settings for go/src/dest
 GO_VERSION = "1.23.7"
 GO_BASE_URL = "https://go.dev/dl/go{version}.{system}-{arch}.tar.gz"
-DEST_PATH = "/usr/local"
+DEST_PATH = tempfile.gettempdir()
 
 # Parse the system architecture and platform
 system: str | None = None
@@ -51,11 +51,16 @@ with tempfile.TemporaryDirectory() as temp_dir:
 
     # Template the url and send the request
     go_url = GO_BASE_URL.format(version=GO_VERSION, arch=arch, system=system)
-    print(f"Attempting to download go src from: {go_url}")
+    print(f"# Attempting to download go src from: {go_url}")
     with urlopen(go_url) as response:
         tar_gz_file.write_bytes(response.read())
 
+    print(f"# Attempting to extract archive to: {DEST_PATH}")
     shutil.unpack_archive(tar_gz_file, DEST_PATH)
 
 # Ensure go is usable. ! Note this requires the path be set externally
-subprocess.run(["go", "version"], check=True)
+subprocess.run(["go", "version"], check=True, capture_output=True)
+
+# Print the path used for installation
+print("# Install path for go: ")
+print(f"export PATH=$PATH:{DEST_PATH}/go/bin")
