@@ -66,4 +66,4 @@ print("# Install path for go: ")
 # print(f"export PATH=$PATH:{DEST_PATH}/go/bin")
 # print(f"export GO_INSTALL_PATH={DEST_PATH}/go/bin")
 # System-link go binaries to a usr defined path
-subprocess.run(["ln", "-s", f"{DEST_PATH}/go/bin/*", "/usr/local/bin"], check=True, shell=True, capture_output=True)
+print(f"ln -s {DEST_PATH}/go/bin/* /usr/local/bin")
