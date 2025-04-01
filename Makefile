@@ -44,7 +44,9 @@ format:
 	ruff format && ruff check --fix
 check-format:
 	ruff format --check && ruff check
-
+################################ TESTS ###############################
+test:
+	python3 -m pytest tests
 ##################################### DOCS #####################################
 docs-gen:
 	python3 -m mkdocs build --config-file ./docs/mkdocs.yaml --site-dir ./site

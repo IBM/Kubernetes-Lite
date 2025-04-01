@@ -14,8 +14,8 @@ any external dependencies (e.g. requests)
 import platform
 import shutil
 import tempfile
-import urllib
 from pathlib import Path
+from urllib.request import urlopen
 
 # Base settings for go/src/dest
 GO_VERSION = "1.23.7"
@@ -51,7 +51,7 @@ with tempfile.TemporaryDirectory() as temp_dir:
     # Template the url and send the request
     go_url = GO_BASE_URL.format(version=GO_VERSION, arch=arch, system=system)
     print(f"Attempting to download go src from: {go_url}")
-    with urllib.request.urlopen(go_url) as response:
+    with urlopen(go_url) as response:
         tar_gz_file.write_bytes(response.read())
 
     shutil.unpack_archive(tar_gz_file, DEST_PATH)
