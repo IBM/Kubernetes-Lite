@@ -1,9 +1,10 @@
 name: Build
 
-on:
-  push:
-    branches:
-      - main
+on: [push]
+#on:
+#  push:
+#    branches:
+#      - main
 
 jobs:
   build_bdist:
@@ -44,7 +45,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: kubernetes-lite-release-src-${{ matrix.os }}-${{ strategy.job-index }}
-          path: ./wheelhouse/*.tar.gz
+          path: ./dist/*.tar.gz
 
 
   upload_pypi:
