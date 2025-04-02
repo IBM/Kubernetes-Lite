@@ -46,13 +46,13 @@ class ArchTypes(StrEnum):
 # Parse the system architecture and platform
 system: SystemTypes | None = None
 arch: ArchTypes | None = None
-if platform.machine() in {"x86_64", "amd64"}:
+if platform.machine().lower() in {"x86_64", "amd64"}:
     arch = ArchTypes.AMD64
-elif platform.machine() in {"i386", "i686"}:
+elif platform.machine().lower() in {"i386", "i686"}:
     arch = ArchTypes.X386
-elif platform.machine() in {"aarch64", "arm64", "armv8b", "armv8l", "aarch64_be"}:
+elif platform.machine().lower() in {"aarch64", "arm64", "armv8b", "armv8l", "aarch64_be"}:
     arch = ArchTypes.ARM64
-elif platform.machine() in {"s390x"}:
+elif platform.machine().lower() in {"s390x"}:
     arch = ArchTypes.S390
 else:
     raise ValueError(f"Unknown machine platform {platform.machine()}")
