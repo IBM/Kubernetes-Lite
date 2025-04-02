@@ -52,7 +52,6 @@ jobs:
     name: Upload artifacts
     needs: [build_bdist, build_sdist]
     runs-on: ubuntu-latest
-    environment: pypi
     permissions:
       id-token: write
     if: github.event_name == 'release' && github.event.action == 'published'
