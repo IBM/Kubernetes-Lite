@@ -30,4 +30,4 @@ jobs:
           push: false
           target: test
       - name: Run tests
-        run: docker run localtest:latest python3 -m pytest
+        run: docker run localtest:latest python3 -m pytest tests
