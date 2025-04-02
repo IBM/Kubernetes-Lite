@@ -26,16 +26,21 @@ DEST_PATH = tempfile.gettempdir()
 
 
 # Consts for platforms
-class SystemTypes(StrEnum):  # noqa: D101
+class SystemTypes(StrEnum):
+    """SystemTypes is a simple enum to track the parent OS"""
+
     LINUX = "linux"
     DARWIN = "darwin"
     WINDOWS = "windows"
 
 
-class ArchTypes(StrEnum):  # noqa: D101
+class ArchTypes(StrEnum):
+    """ArchTypes is a simple enum to track the processor type"""
+
     AMD64 = "amd64"
     X386 = "386"
     ARM64 = "arm64"
+    S390 = "s390x"
 
 
 # Parse the system architecture and platform
@@ -47,6 +52,8 @@ elif platform.machine() in {"i386", "i686"}:
     arch = ArchTypes.X386
 elif platform.machine() in {"aarch64", "arm64", "armv8b", "armv8l", "aarch64_be"}:
     arch = ArchTypes.ARM64
+elif platform.machine() in {"s390x"}:
+    arch = ArchTypes.S390
 else:
     raise ValueError(f"Unknown machine platform {platform.machine()}")
 
