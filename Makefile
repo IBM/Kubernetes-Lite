@@ -38,12 +38,7 @@ local-docker-build:
 	docker build --tag=kubernetes-lite-release:latest --target=release --file=scripts/Dockerfile .
 local-docker-build-test:
 	docker build --tag=kubernetes-lite-test:latest --target=test --file=scripts/Dockerfile .
-
 docker-build: local-docker-build
-docker-test: local-docker-build-test
-	docker run kubernetes-lite-test:latest python3 -m pytest tests/
-
-
 ################################ FORMAT AND LINT ###############################
 format: 
 	ruff format && ruff check --fix
@@ -52,6 +47,9 @@ check-format:
 ################################ TESTS ###############################
 test:
 	python3 -m pytest tests
+run-docker-test:
+	docker run kubernetes-lite-test:latest python3 -m pytest tests/
+docker-test: local-docker-build-test run-docker-test
 ##################################### DOCS #####################################
 docs-gen:
 	python3 -m mkdocs build --config-file ./docs/mkdocs.yaml --site-dir ./site

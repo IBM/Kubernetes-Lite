@@ -1,6 +1,6 @@
 name: PR Check
 
-on: [push, pull_request]
+on: [pull_request]
 
 jobs:
   check:
@@ -30,4 +30,4 @@ jobs:
           push: false
           target: test
       - name: Run tests
-        run: docker run localtest:latest python3 -m pytest tests
+        run: make run-docker-test
