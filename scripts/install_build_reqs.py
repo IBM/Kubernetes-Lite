@@ -114,8 +114,8 @@ if system in {SystemTypes.LINUX, SystemTypes.DARWIN}:
     print(f"export PATH=$PATH:{DEST_PATH}/go/bin")
     print(f"export GO_INSTALL_PATH={DEST_PATH}")
 else:
-    print(f"set PATH=$PATH:{DEST_PATH}/go/bin")
-    print(f"set GO_INSTALL_PATH={DEST_PATH}")
+    print(f"SET PATH=%PATH%;{DEST_PATH}/go/bin")
+    print(f"SET GO_INSTALL_PATH={DEST_PATH}")
 
 # System-link go binaries to a usr defined path
 if system in {SystemTypes.DARWIN, SystemTypes.LINUX}:
