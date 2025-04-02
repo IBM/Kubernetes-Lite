@@ -108,15 +108,16 @@ subprocess.run(
 )
 
 # Print the path used for installation
-print("Install path for go: ", file=sys.stderr)
+go_path = DEST_PATH / "go/bin"
+print(f"Binary path for go: {go_path}", file=sys.stderr)
 
 if system in {SystemTypes.LINUX, SystemTypes.DARWIN}:
-    print(f"export PATH=$PATH:{DEST_PATH}/go/bin")
-    print(f"export GO_INSTALL_PATH={DEST_PATH}")
+    print(f"export PATH=$PATH:{go_path}")
+    print(f"export GO_INSTALL_PATH={go_path}")
 else:
-    print(f"SET PATH=%PATH%;{DEST_PATH}/go/bin")
-    print(f"SET GO_INSTALL_PATH={DEST_PATH}")
+    print(f"SET PATH=%PATH%;{go_path}")
+    print(f"SET GO_INSTALL_PATH={go_path}")
 
 # System-link go binaries to a usr defined path
 if system in {SystemTypes.DARWIN, SystemTypes.LINUX}:
-    print(f"ln -s {DEST_PATH}/go/bin/* /usr/local/bin")
+    print(f"ln -s {go_path}/* /usr/local/bin")
