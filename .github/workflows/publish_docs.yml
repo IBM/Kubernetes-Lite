@@ -23,4 +23,4 @@ jobs:
       - name: Install mkdocs dependencies
         run: pip install -e ".[docs]"
       - name: Deploy documentation to GitHub Pages
-        run: python3 -m gh-deploy --force
+        run: python3 -m mkdocs gh-deploy --force
