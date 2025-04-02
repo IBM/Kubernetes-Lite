@@ -6,21 +6,36 @@
 # deposited with the U.S. Copyright Office.                         #
 # ***************************************************************** #
 # SPDX-License-Identifier: Apache-2.0
+
+ARG BUILD_LAYER=local
+
 FROM registry.access.redhat.com/ubi9/python-311 as base
 
-WORKDIR /opt
+USER default
 
-FROM base as local
+FROM base as build
 
-COPY dist/kubernetes_lite*.whl ./
+WORKDIR /opt/build
 
-RUN pip3 install *.whl
+COPY --chown=default:default scripts/install_build_reqs.py install_build_reqs.py
 
-FROM base as remote
+RUN eval $(python3 install_build_reqs.py)
 
-RUN pip3 install kubernetes_lite
+COPY  --chown=default:default README.md README.md
+COPY  --chown=default:default LICENSE LICENSE
+COPY  --chown=default:default pyproject.toml pyproject.toml
+COPY  --chown=default:default kubernetes_lite kubernetes_lite
+
+RUN pip3 install build && python3 -m build && pip3 install dist/*.whl
 
 
-FROM ${build_layer} as examples
+FROM build as test
 
-COPY examples examples
+RUN pip3 install -e ".[test]"
+
+FROM base as release
+
+COPY --from=build /opt/build/dist/*.whl /opt/dist/
+
+COPY tests tests
+RUN pip3 install /opt/dist/*

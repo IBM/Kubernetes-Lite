@@ -35,9 +35,14 @@ python-build:
 	python3 -m build
 
 local-docker-build:
-	docker build --target=local --file=scripts/Dockerfile .
+	docker build --tag=kubernetes-lite-release:latest --target=release --file=scripts/Dockerfile .
+local-docker-build-test:
+	docker build --tag=kubernetes-lite-test:latest --target=test --file=scripts/Dockerfile .
 
-docker-build: python-build local-docker-build
+docker-build: local-docker-build
+docker-test: local-docker-build-test
+	docker run kubernetes-lite-test:latest python3 -m pytest tests/
+
 
 ################################ FORMAT AND LINT ###############################
 format: 

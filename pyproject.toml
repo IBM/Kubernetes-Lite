@@ -58,7 +58,8 @@ include = ["kubernetes_lite*"]
 "kubernetes_lite.licenses" = ["**/*"]
 
 [tool.setuptools_scm]
-write_to = "kubernetes_lite/_version.py"
+version_file = "kubernetes_lite/_version.py"
+fallback_version = "0.0.0.dev1"
 
 ############################# Cross Platform Build #############################
 

@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   build_bdist:
-    name: Build wheels on ${{ matrix.os }}
+    name: Build binary distribution on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -45,6 +45,7 @@ jobs:
 
 
   upload_pypi:
+    name: Upload artifacts
     needs: [build_bdist, build_sdist]
     runs-on: ubuntu-latest
     environment: pypi
@@ -56,11 +57,9 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          # unpacks all CIBW artifacts into dist/
-          pattern: cibw-*
+          # unpacks all kubernetes lite artifacts into dist/
+          pattern: kubernetes-lite-release-*
           path: dist
           merge-multiple: true
 
       - uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          repository-url: https://test.pypi.org/legacy/
