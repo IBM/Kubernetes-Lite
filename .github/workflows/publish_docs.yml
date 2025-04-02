@@ -1,9 +1,8 @@
 name: Publish Documents
-#on:
-#  push:
-#    branches:
-#      - main
-on: [push]
+on:
+  push:
+    branches:
+      - main
 permissions:
   contents: write
 jobs:
@@ -23,4 +22,4 @@ jobs:
       - name: Install mkdocs dependencies
         run: pip install -e ".[docs]"
       - name: Deploy documentation to GitHub Pages
-        run: python3 -m mkdocs gh-deploy --force  -f docs/mkdocs.yaml
+        run: make docs-publish

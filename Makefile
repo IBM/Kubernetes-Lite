@@ -10,18 +10,16 @@ LOCAL_PY_LDFLAGS=$(shell python3.11-config --ldflags)
 all: check
 
 ################################## GENERATION ##################################
-gen: 
+gen:
 	export GOWORK=off && \
 	rm -rf kubernetes_lite/wrapper/* && \
 	cd kubernetes_lite && \
 	gopy pkg -no-make -author="Michael Honaker" -email="michael.honaker@ibm.com" -name=wrapper github.ibm.com/Michael-Honaker/kubernetes-lite/kubernetes_lite/go_wrapper/pkg/client github.ibm.com/Michael-Honaker/kubernetes-lite/kubernetes_lite/go_wrapper/pkg/envtest/setup github.ibm.com/Michael-Honaker/kubernetes-lite/kubernetes_lite/go_wrapper/pkg/envtest/server && \
 	python3 ../scripts/post_gen_cleanup.py ./ wrapper
-
 license-gen:
 	pip-licenses --format=plain-vertical --with-license-file -p kubernetes_lite -p orjson > ./kubernetes_lite/licenses/PYTHON_LICENSES && \
 	cd kubernetes_lite/go_wrapper && \
 	go-licenses save --save_path ../licenses/go ./...
-
 
 ##################################### BUILD ####################################
 local-build:
@@ -29,35 +27,40 @@ local-build:
 	rm -rf kubernetes_lite/wrapper/_wrapper.*.* && \
 	cd kubernetes_lite/wrapper && \
 	CGO_CFLAGS_ALLOW="-O.*" CGO_CFLAGS="${LOCAL_PY_CFLAGS}" CGO_LDFLAGS="${LOCAL_PY_LDFLAGS} -Wl,-undefined,dynamic_lookup" go build -buildmode=c-shared -o _wrapper.so '-ldflags=-s -w'
-
 python-build:
 	rm -rf dist
 	python3 -m build
-
 local-docker-build:
 	docker build --tag=kubernetes-lite-release:latest --target=release --file=scripts/Dockerfile .
 local-docker-build-test:
 	docker build --tag=kubernetes-lite-test:latest --target=test --file=scripts/Dockerfile .
 docker-build: local-docker-build
+
 ################################ FORMAT AND LINT ###############################
 format: 
 	ruff format && ruff check --fix
 check-format:
 	ruff format --check && ruff check
+
 ################################ TESTS ###############################
 test:
 	python3 -m pytest tests
 run-docker-test:
 	docker run kubernetes-lite-test:latest python3 -m pytest tests/
 docker-test: local-docker-build-test run-docker-test
+
 ##################################### DOCS #####################################
-docs-gen:
-	python3 -m mkdocs build --config-file ./docs/mkdocs.yaml --site-dir ./site
+docs-reqs:
+	cp -r examples docs/current
+	cp README.md docs/current/index.md
+docs-publish: docs-reqs
+	python3 -m mkdocs gh-deploy --force  -f docs/mkdocs.yaml
+docs-gen: docs-reqs
+	python3 -m mkdocs build -f ./docs/mkdocs.yaml --site-dir ./site
+docs-serve: docs-reqs
+	python3 -m mkdocs serve -f ./docs/mkdocs.yaml
 
-docs-serve:
-	python3 -m mkdocs serve --config-file ./docs/mkdocs.yaml
 ##################################### SECRETS ##################################
-
 update-secrets:
 	detect-secrets scan --update .secrets.baseline --exclude-files '(go.sum|tests\/performance\/data\/.*)'
 check-secrets:
