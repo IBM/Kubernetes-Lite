@@ -99,6 +99,13 @@ with tempfile.TemporaryDirectory() as temp_dir:
 
 # Ensure go is usable. ! Note this requires the path be set externally
 subprocess.run([f"{DEST_PATH}/go/bin/go", "version"], check=True, capture_output=True)
+# ! Install the make gen dependencies
+subprocess.run(
+    [f"{DEST_PATH}/go/bin/go", "install", "golang.org/x/tools/cmd/goimports@latest"], check=True, capture_output=True
+)
+subprocess.run(
+    [f"{DEST_PATH}/go/bin/go", "install", "github.com/go-python/gopy@latest"], check=True, capture_output=True
+)
 
 # Print the path used for installation
 print("Install path for go: ", file=sys.stderr)
