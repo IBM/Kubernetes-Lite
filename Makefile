@@ -50,13 +50,14 @@ run-docker-test:
 docker-test: local-docker-build-test run-docker-test
 
 ##################################### DOCS #####################################
-docs-examples:
+docs-reqs:
 	cp -r examples docs/current
-docs-publish: docs-examples
+	cp README.md docs/current/index.md
+docs-publish: docs-reqs
 	python3 -m mkdocs gh-deploy --force  -f docs/mkdocs.yaml
-docs-gen: docs-examples
+docs-gen: docs-reqs
 	python3 -m mkdocs build -f ./docs/mkdocs.yaml --site-dir ./site
-docs-serve: docs-examples
+docs-serve: docs-reqs
 	python3 -m mkdocs serve -f ./docs/mkdocs.yaml
 
 ##################################### SECRETS ##################################

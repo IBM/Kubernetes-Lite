@@ -5,7 +5,7 @@ Kubernetes Lite is a "liteweight" wrapper around various golang Kubernetes libra
 
 ## Documentation
 
-Get going with our [examples](./examples/) folder or jump into more details with the [Python API Reference](https://ibm.github.io/Kubernetes-Lite/api_references/)!
+Get going with our [examples](https://ibm.github.io/Kubernetes-Lite/examples/) page or jump into more details with our [API Reference](https://ibm.github.io/Kubernetes-Lite/api_references/)!
 
 ## Installation
 
