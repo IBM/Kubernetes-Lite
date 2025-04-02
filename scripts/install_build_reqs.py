@@ -23,7 +23,7 @@ from urllib.request import urlopen
 # Base settings for go/src/dest
 GO_VERSION = "1.23.7"
 GO_BASE_URL = "https://go.dev/dl/go{version!s}.{system!s}-{arch!s}.{archive!s}"
-DEST_PATH = tempfile.gettempdir()
+DEST_PATH = Path(tempfile.gettempdir())
 
 
 # Consts for platforms
@@ -95,21 +95,26 @@ with tempfile.TemporaryDirectory() as temp_dir:
         archive_file.write_bytes(response.read())
 
     print(f"Attempting to extract archive to: {DEST_PATH}", file=sys.stderr)
-    shutil.unpack_archive(archive_file, DEST_PATH)
-
-# Ensure go is usable. ! Note this requires the path be set externally
-subprocess.run([f"{DEST_PATH}/go/bin/go", "version"], check=True, capture_output=True)
-# ! Install the make gen dependencies
-subprocess.run(
-    [f"{DEST_PATH}/go/bin/go", "install", "golang.org/x/tools/cmd/goimports@latest"], check=True, capture_output=True
-)
-subprocess.run(
-    [f"{DEST_PATH}/go/bin/go", "install", "github.com/go-python/gopy@latest"], check=True, capture_output=True
-)
+    shutil.unpack_archive(archive_file, str(DEST_PATH))
 
 # Print the path used for installation
 go_path = DEST_PATH / "go/bin"
+go_bin = go_path / "bin"
 print(f"Binary path for go: {go_path}", file=sys.stderr)
+
+# Ensure go is usable. ! Note this requires the path be set externally
+subprocess.run([f"{go_bin}", "version"], check=True, capture_output=True, stdout=sys.stderr)
+# ! Install the make gen dependencies
+subprocess.run(
+    [f"{go_bin}", "install", "golang.org/x/tools/cmd/goimports@latest"],
+    check=True,
+    capture_output=True,
+    stdout=sys.stderr,
+)
+subprocess.run(
+    [f"{go_bin}", "install", "github.com/go-python/gopy@latest"], check=True, capture_output=True, stdout=sys.stderr
+)
+
 
 if system in {SystemTypes.LINUX, SystemTypes.DARWIN}:
     print(f"export PATH=$PATH:{go_path}")
