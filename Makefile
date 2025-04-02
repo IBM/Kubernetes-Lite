@@ -7,7 +7,7 @@ PIP=$(PYTHON) -m pip
 LOCAL_PY_CFLAGS=$(shell python3.11-config --includes)
 LOCAL_PY_LDFLAGS=$(shell python3.11-config --ldflags)
 
-all: format
+all: check
 
 ################################## GENERATION ##################################
 gen: 
@@ -35,17 +35,33 @@ python-build:
 	python3 -m build
 
 local-docker-build:
-	docker build --target=local --file=scripts/Dockerfile .
-
-docker-build: python-build local-docker-build
-
+	docker build --tag=kubernetes-lite-release:latest --target=release --file=scripts/Dockerfile .
+local-docker-build-test:
+	docker build --tag=kubernetes-lite-test:latest --target=test --file=scripts/Dockerfile .
+docker-build: local-docker-build
 ################################ FORMAT AND LINT ###############################
 format: 
 	ruff format && ruff check --fix
-
+check-format:
+	ruff format --check && ruff check
+################################ TESTS ###############################
+test:
+	python3 -m pytest tests
+run-docker-test:
+	docker run kubernetes-lite-test:latest python3 -m pytest tests/
+docker-test: local-docker-build-test run-docker-test
 ##################################### DOCS #####################################
 docs-gen:
 	python3 -m mkdocs build --config-file ./docs/mkdocs.yaml --site-dir ./site
 
 docs-serve:
 	python3 -m mkdocs serve --config-file ./docs/mkdocs.yaml
+##################################### SECRETS ##################################
+
+update-secrets:
+	detect-secrets scan --update .secrets.baseline --exclude-files '(go.sum|tests\/performance\/data\/.*)'
+check-secrets:
+	detect-secrets audit --report --fail-on-unaudited --fail-on-live --fail-on-audited-real .secrets.baseline
+
+################################ Checks ###############################
+check: check-format check-secrets

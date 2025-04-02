@@ -4,8 +4,8 @@ description = ""
 readme = {file = "README.md", content-type = "text/markdown"}
 dynamic = ["version"]
 requires-python = ">=3.11"
+license = "Apache-2.0"
 classifiers=[
-    "License :: OSI Approved :: Apache Software License",
     "Programming Language :: Go",
     "Development Status :: 4 - Beta"
 ]
@@ -24,7 +24,7 @@ gen = [
 test = [
     "pytest~=8.3.4",
     "pytest-cov>=2.10.1",
-    "deepdiff~=8.1.1",
+    "deepdiff~=7.0.1",
     "kubernetes~=30.1.0"
 ]
 
@@ -58,7 +58,17 @@ include = ["kubernetes_lite*"]
 "kubernetes_lite.licenses" = ["**/*"]
 
 [tool.setuptools_scm]
-write_to = "kubernetes_lite/_version.py"
+version_file = "kubernetes_lite/_version.py"
+fallback_version = "0.0.0.dev1"
+
+############################# Cross Platform Build #############################
+
+[tool.cibuildwheel]
+# Only build wheels for CPython
+archs = ["auto64"]
+build = "cp3*"
+before-build = 'eval "$(python3 {package}/scripts/install_build_reqs.py)" && env && go version'
+environment = "PATH=$PATH:$GO_INSTALL_PATH"
 
 ##################################### Formatting ###############################
 
