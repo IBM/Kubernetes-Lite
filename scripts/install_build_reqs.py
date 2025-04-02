@@ -14,6 +14,7 @@ any external dependencies (e.g. requests)
 import platform
 import shutil
 import subprocess
+import sys
 import tempfile
 from enum import StrEnum
 from pathlib import Path
@@ -73,18 +74,18 @@ with tempfile.TemporaryDirectory() as temp_dir:
 
     # Template the url and send the request
     go_url = GO_BASE_URL.format(version=GO_VERSION, arch=arch, system=system)
-    print(f"# Attempting to download go src from: {go_url}")
+    print(f"Attempting to download go src from: {go_url}", file=sys.stderr)
     with urlopen(go_url) as response:
         tar_gz_file.write_bytes(response.read())
 
-    print(f"# Attempting to extract archive to: {DEST_PATH}")
+    print(f"Attempting to extract archive to: {DEST_PATH}", file=sys.stderr)
     shutil.unpack_archive(tar_gz_file, DEST_PATH)
 
 # Ensure go is usable. ! Note this requires the path be set externally
 subprocess.run([f"{DEST_PATH}/go/bin/go", "version"], check=True, capture_output=True)
 
 # Print the path used for installation
-print("# Install path for go: ")
+print("Install path for go: ", file=sys.stderr)
 
 if system in {SystemTypes.LINUX, SystemTypes.DARWIN}:
     print(f"export PATH=$PATH:{DEST_PATH}/go/bin")
