@@ -31,11 +31,11 @@ RUN pip3 install build && python3 -m build && pip3 install dist/*.whl
 
 FROM build as test
 
+COPY tests tests
 RUN pip3 install -e ".[test]"
 
 FROM base as release
 
 COPY --from=build /opt/build/dist/*.whl /opt/dist/
 
-COPY tests tests
 RUN pip3 install /opt/dist/*
