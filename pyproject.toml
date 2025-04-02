@@ -66,10 +66,15 @@ fallback_version = "0.0.0.dev1"
 [tool.cibuildwheel]
 # Only build wheels for CPython
 archs = ["auto64"]
-linux.archs = ["x86_64","aarch64","s390x"]
 build = "cp3*"
 before-build = 'eval "$(python3 {package}/scripts/install_build_reqs.py)" && env && go version'
 environment = "PATH=$PATH:$GO_INSTALL_PATH"
+
+[tool.cibuildwheel.linux]
+archs = ["x86_64","aarch64","s390x"]
+
+[tool.cibuildwheel.windows]
+before-build = 'python3 {package}/scripts/install_build_reqs.py > env.cmd && call env.cmd'
 
 ##################################### Formatting ###############################
 
