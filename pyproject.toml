@@ -74,7 +74,7 @@ environment = "PATH=$PATH:$GO_INSTALL_PATH"
 archs = ["x86_64","aarch64","s390x"]
 
 [tool.cibuildwheel.windows]
-before-build = 'python3 {package}/scripts/install_build_reqs.py >cmd.bat && call cmd.bat && echo %PATH% && go version && make gen'
+before-build = 'python3 {package}/scripts/install_build_reqs.py >cmd.bat && call cmd.bat && echo %PATH% && go version && ls %GO_INSTALL_PATH% && make gen'
 
 ##################################### Formatting ###############################
 
