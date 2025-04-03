@@ -70,6 +70,12 @@ build = "cp3*"
 before-build = 'eval "$(python3 {package}/scripts/install_build_reqs.py)" && env && go version'
 environment = "PATH=$PATH:$GO_INSTALL_PATH"
 
+[tool.cibuildwheel.linux]
+archs = ["x86_64","aarch64","s390x"]
+
+[tool.cibuildwheel.windows]
+before-build = 'python3 {package}/scripts/install_build_reqs.py >cmd.bat && call cmd.bat && echo %PATH% && go version && ls %GO_INSTALL_PATH% && make gen'
+
 ##################################### Formatting ###############################
 
 [tool.ruff]
