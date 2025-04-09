@@ -75,7 +75,7 @@ archs = ["x86_64","aarch64","s390x"]
 
 [tool.cibuildwheel.windows]
 before-build = """
-bash -c 'eval "$(python3 {package}/scripts/install_build_reqs.py)" && env && go version'
+bash -c 'eval "$(python3 {package}\scripts\install_build_reqs.py)" && env && go version'
 """
 
 ##################################### Formatting ###############################
