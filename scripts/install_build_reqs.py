@@ -110,6 +110,12 @@ current_env["GOBIN"] = str(go_path)
 subprocess.run([f"{go_bin}", "version"], check=True, stdout=sys.stderr, env=current_env)
 # ! Install the make gen dependencies
 subprocess.run(
+    ["python3", "-m", "pip3", "install", "pybindgen"],
+    check=True,
+    stdout=sys.stderr,
+    env=current_env,
+)
+subprocess.run(
     [f"{go_bin}", "install", "golang.org/x/tools/cmd/goimports@latest"],
     check=True,
     stdout=sys.stderr,
