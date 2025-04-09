@@ -11,6 +11,8 @@ just installs the correct version of golang. Due to where this is ran we can not
 any external dependencies (e.g. requests)
 """
 
+import copy
+import os
 import platform
 import shutil
 import subprocess
@@ -101,16 +103,21 @@ with tempfile.TemporaryDirectory() as temp_dir:
 go_path = DEST_PATH / "go/bin"
 go_bin = go_path / "go"
 print(f"Binary path for go: {go_path}", file=sys.stderr)
+current_env = copy.deepcopy(os.environ)
+current_env["GOBIN"] = str(go_path)
 
 # Ensure go is usable. ! Note this requires the path be set externally
-subprocess.run([f"{go_bin}", "version"], check=True, stdout=sys.stderr)
+subprocess.run([f"{go_bin}", "version"], check=True, stdout=sys.stderr, env=current_env)
 # ! Install the make gen dependencies
 subprocess.run(
     [f"{go_bin}", "install", "golang.org/x/tools/cmd/goimports@latest"],
     check=True,
     stdout=sys.stderr,
+    env=current_env,
 )
-subprocess.run([f"{go_bin}", "install", "github.com/go-python/gopy@latest"], check=True, stdout=sys.stderr)
+subprocess.run(
+    [f"{go_bin}", "install", "github.com/go-python/gopy@latest"], check=True, stdout=sys.stderr, env=current_env
+)
 
 
 if system in {SystemTypes.LINUX, SystemTypes.DARWIN}:
@@ -119,6 +126,7 @@ if system in {SystemTypes.LINUX, SystemTypes.DARWIN}:
 else:
     print(f"SET PATH=%PATH%;{go_path}")
     print(f"SET GO_INSTALL_PATH={go_path}")
+    print(f"ls {go_path}")
 
 # System-link go binaries to a usr defined path
 if system in {SystemTypes.DARWIN, SystemTypes.LINUX}:
