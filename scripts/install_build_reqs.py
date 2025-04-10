@@ -22,28 +22,12 @@ from enum import StrEnum
 from pathlib import Path
 from urllib.request import urlopen
 
+from scripts.utils import ARCH, SYSTEM, SystemTypes
+
 # Base settings for go/src/dest
 GO_VERSION = "1.23.7"
 GO_BASE_URL = "https://go.dev/dl/go{version!s}.{system!s}-{arch!s}.{archive!s}"
 DEST_PATH = Path(tempfile.gettempdir())
-
-
-# Consts for platforms
-class SystemTypes(StrEnum):
-    """SystemTypes is a simple enum to track the parent OS"""
-
-    LINUX = "linux"
-    DARWIN = "darwin"
-    WINDOWS = "windows"
-
-
-class ArchTypes(StrEnum):
-    """ArchTypes is a simple enum to track the processor type"""
-
-    AMD64 = "amd64"
-    X386 = "386"
-    ARM64 = "arm64"
-    S390 = "s390x"
 
 
 class ArchiveType(StrEnum):
@@ -53,29 +37,10 @@ class ArchiveType(StrEnum):
     TAR = "tar.gz"
 
 
-# Parse the system architecture and platform
-archive: ArchiveType | None = None
-system: SystemTypes | None = None
-arch: ArchTypes | None = None
-if platform.machine().lower() in {"x86_64", "amd64"}:
-    arch = ArchTypes.AMD64
-elif platform.machine().lower() in {"i386", "i686"}:
-    arch = ArchTypes.X386
-elif platform.machine().lower() in {"aarch64", "arm64", "armv8b", "armv8l", "aarch64_be"}:
-    arch = ArchTypes.ARM64
-elif platform.machine().lower() in {"s390x"}:
-    arch = ArchTypes.S390
-else:
-    raise ValueError(f"Unknown machine platform {platform.machine()}")
-
-if platform.system() == "Linux":
-    system = SystemTypes.LINUX
-    archive = ArchiveType.TAR
-elif platform.system() == "Darwin":
-    system = SystemTypes.DARWIN
+archive = None
+if platform.system() == "Linux" or platform.system() == "Darwin":
     archive = ArchiveType.TAR
 elif platform.system() == "Windows":
-    system = SystemTypes.WINDOWS
     archive = ArchiveType.ZIP
 else:
     raise ValueError(f"Unknown machine system {platform.system()}")
@@ -88,8 +53,8 @@ with tempfile.TemporaryDirectory() as temp_dir:
     # Template the url and send the request
     go_url = GO_BASE_URL.format(
         version=GO_VERSION,
-        arch=arch,
-        system=system,
+        arch=ARCH,
+        system=SYSTEM,
         archive=archive,
     )
     print(f"Attempting to download go src from: {go_url}", file=sys.stderr)
@@ -126,7 +91,7 @@ subprocess.run(
 )
 
 
-if system in {SystemTypes.LINUX, SystemTypes.DARWIN}:
+if SYSTEM in {SystemTypes.LINUX, SystemTypes.DARWIN}:
     print(f"export PATH=$PATH:{go_path}")
     print(f"export GO_INSTALL_PATH={go_path}")
 else:
@@ -135,5 +100,5 @@ else:
     print(f"ls {go_path}")
 
 # System-link go binaries to a usr defined path
-if system in {SystemTypes.DARWIN, SystemTypes.LINUX}:
+if SYSTEM in {SystemTypes.DARWIN, SystemTypes.LINUX}:
     print(f"ln -s {go_path}/* /usr/local/bin")

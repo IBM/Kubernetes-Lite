@@ -13,12 +13,17 @@ and deleting extra unneeded files.
 
 from pathlib import Path
 
+from scripts.utils import SYSTEM, SystemTypes
+
 import typer
 
 app = typer.Typer()
 
 CGO_CFLAGS = "#cgo CFLAGS: -Wno-error -Wno-implicit-function-declaration -Wno-int-conversion -Ofast"
-CGO_LDFLAGS = "#cgo LDFLAGS: -ldl"
+
+CGO_LDFLAGS = "#cgo LDFLAGS:"
+if SYSTEM in {SystemTypes.DARWIN, SystemTypes.DARWIN}:
+    CGO_LDFLAGS = "#cgo LDFLAGS: -ldl"
 
 
 @app.command()
