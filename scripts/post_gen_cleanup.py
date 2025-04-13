@@ -22,7 +22,7 @@ app = typer.Typer()
 CGO_CFLAGS = "#cgo CFLAGS: -Wno-error -Wno-implicit-function-declaration -Wno-int-conversion -Ofast"
 
 CGO_LDFLAGS = "#cgo LDFLAGS:"
-if SYSTEM in {SystemTypes.DARWIN, SystemTypes.DARWIN}:
+if SYSTEM in {SystemTypes.DARWIN, SystemTypes.LINUX}:
     CGO_LDFLAGS = "#cgo LDFLAGS: -ldl"
 
 

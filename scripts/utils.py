@@ -36,21 +36,21 @@ class ArchTypes(StrEnum):
 SYSTEM: SystemTypes | None = None
 ARCH: ArchTypes | None = None
 if platform.machine().lower() in {"x86_64", "amd64"}:
-    arch = ArchTypes.AMD64
+    ARCH = ArchTypes.AMD64
 elif platform.machine().lower() in {"i386", "i686"}:
-    arch = ArchTypes.X386
+    ARCH = ArchTypes.X386
 elif platform.machine().lower() in {"aarch64", "arm64", "armv8b", "armv8l", "aarch64_be"}:
-    arch = ArchTypes.ARM64
+    ARCH = ArchTypes.ARM64
 elif platform.machine().lower() in {"s390x"}:
-    arch = ArchTypes.S390
+    ARCH = ArchTypes.S390
 else:
     raise ValueError(f"Unknown machine platform {platform.machine()}")
 
 if platform.system() == "Linux":
-    system = SystemTypes.LINUX
+    SYSTEM = SystemTypes.LINUX
 elif platform.system() == "Darwin":
-    system = SystemTypes.DARWIN
+    SYSTEM = SystemTypes.DARWIN
 elif platform.system() == "Windows":
-    system = SystemTypes.WINDOWS
+    SYSTEM = SystemTypes.WINDOWS
 else:
     raise ValueError(f"Unknown machine system {platform.system()}")
