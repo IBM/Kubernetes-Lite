@@ -67,14 +67,14 @@ fallback_version = "0.0.0.dev1"
 # Only build wheels for CPython
 archs = ["auto64"]
 build = "cp3*"
-before-build = 'eval "$(python3 {package}/scripts/install_build_reqs.py)" && env && go version'
+before-build = 'cd {package} && eval "$(python3 -m scripts.install_build_reqs)" && env && go version'
 environment = "PATH=$PATH:$GO_INSTALL_PATH"
 
 [tool.cibuildwheel.linux]
 archs = ["x86_64","aarch64","s390x"]
 
 [tool.cibuildwheel.windows]
-before-build = 'python3 {package}/scripts/install_build_reqs.py >cmd.bat && call cmd.bat && echo %PATH% && go version && make gen && cat ./kubernetes_lite/wrapper/wrapper.go'
+before-build = 'cd {package} && python3 -m scripts.install_build_reqs >cmd.bat && call cmd.bat && echo %PATH% && go version && make gen && cat ./kubernetes_lite/wrapper/wrapper.go'
 environment = """
 PATH="C:\\\\Users\\\\RUNNER~1\\\\AppData\\\\Local\\\\Temp\\\\go\\\\bin;$PATH"
 """
