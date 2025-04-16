@@ -74,7 +74,7 @@ before-build = 'cd {package} && eval "$(python3 -m scripts.install_build_reqs)"'
 [tool.cibuildwheel.windows]
 # For window we need to use CMD format and also regen to make sure we have the correct
 # linkings
-before-build = 'cd {package} && python3 -m scripts.install_build_reqs >cmd.bat && call cmd.bat && make gen'
+before-build = 'cd {package} && python3 -m scripts.install_build_reqs >cmd.bat && call cmd.bat'
 # This env path is hard coded for Github Actions
 environment = """
 PATH="C:\\\\Users\\\\RUNNER~1\\\\AppData\\\\Local\\\\Temp\\\\go\\\\bin;$PATH"
