@@ -62,6 +62,8 @@ def clean_object_metadata(obj: dict) -> dict:
     copied_obj = copy.deepcopy(obj)
     copied_obj["metadata"].pop("resourceVersion", None)
     copied_obj["metadata"].pop("generation", None)
+    copied_obj["metadata"].pop("managedFields", None)
+    copied_obj["metadata"].pop("uid", None)
     return copied_obj
 
 

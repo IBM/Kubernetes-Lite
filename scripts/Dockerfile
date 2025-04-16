@@ -6,21 +6,49 @@
 # deposited with the U.S. Copyright Office.                         #
 # ***************************************************************** #
 # SPDX-License-Identifier: Apache-2.0
+
+ARG BUILD_LAYER=local
+
 FROM registry.access.redhat.com/ubi9/python-311 as base
 
-WORKDIR /opt
+# Make base user non root
+USER default
 
-FROM base as local
+FROM base as build
 
-COPY dist/kubernetes_lite*.whl ./
+WORKDIR /opt/build
+# REquire root for all build permissions
+USER 0
 
-RUN pip3 install *.whl
+# Install go and other system dependencies
+COPY --chown=0:0 scripts/*.py scripts/
+RUN python3 -m scripts.install_build_reqs > build.env
 
-FROM base as remote
+# Copy over buld files
+COPY  --chown=0:0 setup.py setup.py
+COPY  --chown=0:0 README.md README.md
+COPY  --chown=0:0 LICENSE LICENSE
+COPY  --chown=0:0 pyproject.toml pyproject.toml
+COPY  --chown=0:0 kubernetes_lite kubernetes_lite
 
-RUN pip3 install kubernetes_lite
+# Run the build and install the wheel
+RUN source "/opt/build/build.env" && pip3 install build && python3 -m build && pip3 install dist/*.whl
 
 
-FROM ${build_layer} as examples
+FROM base as test
 
-COPY examples examples
+# Copy over the wheel and install test dependencies
+USER default
+COPY --chown=default:default --from=build /opt/build/dist/*.whl /opt/dist/
+RUN pip3 install $(ls /opt/dist/*.whl)[test]
+
+# Copy over the tests themselves
+COPY --chown=default:default tests tests
+
+FROM base as release
+
+USER default
+
+COPY --from=build --chown=default:default /opt/build/dist/*.whl /opt/dist/
+
+RUN pip3 install /opt/dist/*

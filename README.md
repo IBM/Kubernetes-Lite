@@ -2,9 +2,10 @@
 
 Kubernetes Lite is a "liteweight" wrapper around various golang Kubernetes libraries using [gopy](https://github.com/go-python/gopy). It brings the benefits of go's resource efficiency plus the feature set of packages like [client-go](https://k8s.io/client-go) and the [controller-runtime](https://pkg.go.dev/sigs.k8s.io/controller-runtime) to Python. 
 
-## Examples
 
-For examples using the library, please continue reading down below or check our [examples](./examples/) folder.
+## Documentation
+
+Get going with our [examples](https://ibm.github.io/Kubernetes-Lite/examples/) page or jump into more details with our [API Reference](https://ibm.github.io/Kubernetes-Lite/api_references/)!
 
 ## Installation
 
@@ -80,10 +81,6 @@ OS/Arch: darwin/amd64
 sha512: a7824ff8ae9c5062bcbde243a7a3a1c76e02de0c92e2b332daf1954405aeded856023f277d74197862d0d5909e9e1dca451b5f2e84796e451ad6011ec98f8433
 Path: /Users/michaelhonaker/Library/Application Support/io.kubebuilder.envtest/k8s/1.32.0-darwin-amd64
 ```
-
-## Documentation
-
-Get going with our [Examples](#examples) or jump into more details with the [Python API docs]().
 
 ## Contributing
 

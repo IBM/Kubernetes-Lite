@@ -1,11 +1,11 @@
 [project]
 name = "kubernetes_lite"
-description = ""
+description = 'Kubernetes Lite is a "liteweight" wrapper around various golang Kubernetes libraries using gopy'
 readme = {file = "README.md", content-type = "text/markdown"}
 dynamic = ["version"]
 requires-python = ">=3.11"
+license = "Apache-2.0"
 classifiers=[
-    "License :: OSI Approved :: Apache Software License",
     "Programming Language :: Go",
     "Development Status :: 4 - Beta"
 ]
@@ -24,7 +24,7 @@ gen = [
 test = [
     "pytest~=8.3.4",
     "pytest-cov>=2.10.1",
-    "deepdiff~=8.1.1",
+    "deepdiff~=7.0.1",
     "kubernetes~=30.1.0"
 ]
 
@@ -46,7 +46,7 @@ docs = [
 ##################################### Build ####################################
 
 [build-system]
-requires = ["setuptools", "setuptools-golang", "setuptools-scm"]
+requires = ["setuptools", "setuptools-golang", "setuptools-scm", "pybindgen"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
@@ -58,7 +58,27 @@ include = ["kubernetes_lite*"]
 "kubernetes_lite.licenses" = ["**/*"]
 
 [tool.setuptools_scm]
-write_to = "kubernetes_lite/_version.py"
+version_file = "kubernetes_lite/_version.py"
+fallback_version = "0.0.0.dev1"
+
+############################# Cross Platform Build #############################
+
+[tool.cibuildwheel]
+# Only build wheels for 64 bit CPython versions. Skip 3.13 on Windows due to incompatible builds
+archs = ["auto64"]
+build = "cp3*"
+skip = "cp313*-win*"
+# Before builds install the gen requests
+before-build = 'cd {package} && eval "$(python3 -m scripts.install_build_reqs)"'
+
+[tool.cibuildwheel.windows]
+# For window we need to use CMD format and also regen to make sure we have the correct
+# linkings
+before-build = 'cd {package} && python3 -m scripts.install_build_reqs >cmd.bat && call cmd.bat && make gen'
+# This env path is hard coded for Github Actions
+environment = """
+PATH="C:\\\\Users\\\\RUNNER~1\\\\AppData\\\\Local\\\\Temp\\\\go\\\\bin;$PATH"
+"""
 
 ##################################### Formatting ###############################
 
