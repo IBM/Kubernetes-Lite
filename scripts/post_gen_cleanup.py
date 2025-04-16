@@ -13,12 +13,17 @@ and deleting extra unneeded files.
 
 from pathlib import Path
 
+from scripts.utils import SYSTEM, SystemTypes
+
 import typer
 
 app = typer.Typer()
 
 CGO_CFLAGS = "#cgo CFLAGS: -Wno-error -Wno-implicit-function-declaration -Wno-int-conversion -Ofast"
-CGO_LDFLAGS = "#cgo LDFLAGS: -ldl"
+
+CGO_LDFLAGS: str | None = None
+if SYSTEM in {SystemTypes.DARWIN, SystemTypes.LINUX}:
+    CGO_LDFLAGS = "#cgo LDFLAGS: -ldl"
 
 
 @app.command()
@@ -46,7 +51,7 @@ def post_gen_cleanup(parent_dir: Path, wrapper_subpath: str):
     for line in go_file.read_text().split("\n"):
         if line.startswith("#cgo CFLAGS"):
             go_output_text += CGO_CFLAGS + "\n"
-        elif line.startswith("#cgo LDFLAGS"):
+        elif CGO_LDFLAGS and line.startswith("#cgo LDFLAGS"):
             go_output_text += CGO_LDFLAGS + "\n"
         else:
             go_output_text += line + "\n"

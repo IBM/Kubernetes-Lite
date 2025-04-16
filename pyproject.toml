@@ -46,7 +46,7 @@ docs = [
 ##################################### Build ####################################
 
 [build-system]
-requires = ["setuptools", "setuptools-golang", "setuptools-scm"]
+requires = ["setuptools", "setuptools-golang", "setuptools-scm", "pybindgen"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
@@ -64,11 +64,21 @@ fallback_version = "0.0.0.dev1"
 ############################# Cross Platform Build #############################
 
 [tool.cibuildwheel]
-# Only build wheels for CPython
+# Only build wheels for 64 bit CPython versions. Skip 3.13 on Windows due to incompatible builds
 archs = ["auto64"]
 build = "cp3*"
-before-build = 'eval "$(python3 {package}/scripts/install_build_reqs.py)" && env && go version'
-environment = "PATH=$PATH:$GO_INSTALL_PATH"
+skip = "cp313*-win*"
+# Before builds install the gen requests
+before-build = 'cd {package} && eval "$(python3 -m scripts.install_build_reqs)"'
+
+[tool.cibuildwheel.windows]
+# For window we need to use CMD format and also regen to make sure we have the correct
+# linkings
+before-build = 'cd {package} && python3 -m scripts.install_build_reqs >cmd.bat && call cmd.bat && make gen'
+# This env path is hard coded for Github Actions
+environment = """
+PATH="C:\\\\Users\\\\RUNNER~1\\\\AppData\\\\Local\\\\Temp\\\\go\\\\bin;$PATH"
+"""
 
 ##################################### Formatting ###############################
 
