@@ -21,8 +21,8 @@ WORKDIR /opt/build
 USER 0
 
 # Install go and other system dependencies
-COPY --chown=0:0 scripts/install_build_reqs.py install_build_reqs.py
-RUN python3 install_build_reqs.py > build.env
+COPY --chown=0:0 scripts/*.py scripts/
+RUN python3 -m scripts.install_build_reqs > build.env
 
 # Copy over buld files
 COPY  --chown=0:0 setup.py setup.py
