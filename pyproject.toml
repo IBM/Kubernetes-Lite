@@ -25,12 +25,12 @@ test = [
     "pytest~=8.3.4",
     "pytest-cov>=2.10.1",
     "deepdiff~=7.0.1",
-    "kubernetes~=30.1.0"
+    "kubernetes>=30.1,<32.1"
 ]
 
 perf = [
     "typer",
-    "kubernetes~=30.1.0",
+    "kubernetes>=30.1,<32.1",
     "kr8s",
     "psutil",
 ]
