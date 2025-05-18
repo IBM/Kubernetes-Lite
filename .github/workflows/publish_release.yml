@@ -3,7 +3,7 @@ name: Publish Release
 on:
   release:
     types: [published]
-  push:
+  push: 
     branches: [main]
 
 jobs:
@@ -26,7 +26,14 @@ jobs:
       - name: Install cibuildwheel
         run: python -m pip install cibuildwheel==2.23.2
 
-      - name: Build wheels
+      - name: Build release wheels
+        if: github.event_name == 'release'
+        run: python -m cibuildwheel --output-dir wheelhouse
+        env:
+          SETUPTOOLS_SCM_PRETEND_VERSION_FOR_KUBERNETES_LITE: ${{github.event.release.tag_name}}
+
+      - name: Build test wheels
+        if: github.event_name != 'release'
         run: python -m cibuildwheel --output-dir wheelhouse
 
       - uses: actions/upload-artifact@v4
